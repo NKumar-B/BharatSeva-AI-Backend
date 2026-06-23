@@ -1,6 +1,9 @@
-# Use an official OpenJDK runtime as a parent image
+# Stage 1: Build the application
+FROM eclipse-temurin:17-jdk-alpine AS build
+COPY . .
+RUN ./mvnw clean package -DskipTests
+
+# Stage 2: Run the application
 FROM eclipse-temurin:17-jdk-alpine
-# Copy the built JAR file into the container
-COPY target/*.jar app.jar
-# Run the JAR file
+COPY --from=build /target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
