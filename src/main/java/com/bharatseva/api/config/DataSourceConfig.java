@@ -12,12 +12,12 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource() {
         String dbUrl = System.getenv("DATABASE_URL");
-        
+
         System.out.println("DEBUG: DATABASE_URL value is: " + dbUrl);
 
-        if (dbUrl == null || !dbUrl.startsWith("postgres://")) {
-            throw new RuntimeException("DATABASE_URL not set correctly");
-        }
+       if (dbUrl == null || !(dbUrl.startsWith("postgres://") || dbUrl.startsWith("postgresql://"))) {
+    throw new RuntimeException("DATABASE_URL is null or invalid! Value: " + dbUrl);
+}
         
         URI dbUri = URI.create(dbUrl);
         String username = dbUri.getUserInfo().split(":")[0];
