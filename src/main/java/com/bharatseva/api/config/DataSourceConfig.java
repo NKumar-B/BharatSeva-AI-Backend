@@ -12,6 +12,9 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource() {
         String dbUrl = System.getenv("DATABASE_URL");
+        
+        System.out.println("DEBUG: DATABASE_URL value is: " + dbUrl);
+
         if (dbUrl == null || !dbUrl.startsWith("postgres://")) {
             throw new RuntimeException("DATABASE_URL not set correctly");
         }
